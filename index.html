@@ -262,6 +262,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/21/多线程生产及消费模式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Stan Tse">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stan Tse's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/21/多线程生产及消费模式/" itemprop="url">多线程生产及消费模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-21T15:18:45+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="为什么要使用生产者与消费者模式"><a href="#为什么要使用生产者与消费者模式" class="headerlink" title="为什么要使用生产者与消费者模式"></a>为什么要使用生产者与消费者模式</h2><ol>
+<li>解耦</li>
+<li>并发</li>
+<li>支持忙闲不均</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from queue import Queue</span><br><span class="line">import random,threading,time</span><br><span class="line"></span><br><span class="line">#生产者类</span><br><span class="line">class Producer(threading.Thread):</span><br><span class="line">    def __init__(self, name,threadnum, queue):</span><br><span class="line">        super(Producer, self).__init__(name = name)</span><br><span class="line">        self.data=queue</span><br><span class="line">        self.threadnum = threadnum</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        for i in range(5):</span><br><span class="line">            print(&quot;%s is producing %d to the queue!&quot; % (self.getName(), i+5*self.threadnum))</span><br><span class="line">            self.data.put(i+5*self.threadnum)</span><br><span class="line">            time.sleep(random.randrange(10)/5)</span><br><span class="line">        print(&quot;%s finished!&quot; % self.getName())</span><br><span class="line"></span><br><span class="line">#消费者类</span><br><span class="line">class Consumer(threading.Thread):</span><br><span class="line">    def __init__(self,name, threadnum, queue):</span><br><span class="line">        super(Consumer, self).__init__(name = name)</span><br><span class="line">        self.data=queue</span><br><span class="line">        self.threadnum = threadnum</span><br><span class="line">    def run(self):</span><br><span class="line">        for i in range(5):</span><br><span class="line">            val = self.data.get()</span><br><span class="line">            print(&quot;%s is consuming. %d in the queue is consumed!&quot; % (self.getName(),val))</span><br><span class="line">            time.sleep(random.randrange(10))</span><br><span class="line">        print(&quot;%s finished!&quot; % self.getName())</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    queue = Queue()#队列</span><br><span class="line">    threads = []</span><br><span class="line">    threads = []</span><br><span class="line">    threadnum = 2</span><br><span class="line">    for i in range(threadnum):</span><br><span class="line">        threads.append(Producer(&apos;Producer&apos;,i, queue))   </span><br><span class="line">        threads.append(Consumer(&apos;Consumer&apos;,i, queue))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start() </span><br><span class="line"></span><br><span class="line">    for t in threads:</span><br><span class="line">        t.join()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    print (&apos;All threads finished!&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/20/lucky-draw/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1615,7 +1761,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1637,7 +1783,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

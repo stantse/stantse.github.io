@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="programe,">
+  <meta name="keywords" content="threading,Queue,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="A simple lucky draw programe123456789101112131415161718192021222324252627# -*- coding:utf-8 -*-import random#总抽奖人数employee = 100#获奖奖项记录prizes_records = &amp;#123;&amp;quot;1st&amp;quot;:[], &amp;quot;2nd&amp;quot;:[], &amp;q">
-<meta name="keywords" content="programe">
+<meta name="description" content="为什么要使用生产者与消费者模式 解耦 并发 支持忙闲不均  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152# -*- coding:utf-8 -*-from queue import Queueimport random,threading,time#生">
+<meta name="keywords" content="threading,Queue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lucky draw">
-<meta property="og:url" content="https://stantse.github.io/2019/03/20/lucky-draw/index.html">
+<meta property="og:title" content="多线程生产及消费模式">
+<meta property="og:url" content="https://stantse.github.io/2019/03/21/多线程生产及消费模式/index.html">
 <meta property="og:site_name" content="Stan Tse&#39;s Blog">
-<meta property="og:description" content="A simple lucky draw programe123456789101112131415161718192021222324252627# -*- coding:utf-8 -*-import random#总抽奖人数employee = 100#获奖奖项记录prizes_records = &amp;#123;&amp;quot;1st&amp;quot;:[], &amp;quot;2nd&amp;quot;:[], &amp;q">
+<meta property="og:description" content="为什么要使用生产者与消费者模式 解耦 并发 支持忙闲不均  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152# -*- coding:utf-8 -*-from queue import Queueimport random,threading,time#生">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-20T09:33:45.809Z">
+<meta property="og:updated_time" content="2019-03-21T07:53:26.717Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lucky draw">
-<meta name="twitter:description" content="A simple lucky draw programe123456789101112131415161718192021222324252627# -*- coding:utf-8 -*-import random#总抽奖人数employee = 100#获奖奖项记录prizes_records = &amp;#123;&amp;quot;1st&amp;quot;:[], &amp;quot;2nd&amp;quot;:[], &amp;q">
+<meta name="twitter:title" content="多线程生产及消费模式">
+<meta name="twitter:description" content="为什么要使用生产者与消费者模式 解耦 并发 支持忙闲不均  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152# -*- coding:utf-8 -*-from queue import Queueimport random,threading,time#生">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://stantse.github.io/2019/03/20/lucky-draw/">
+  <link rel="canonical" href="https://stantse.github.io/2019/03/21/多线程生产及消费模式/">
 
 
 
 
 
-  <title>lucky draw | Stan Tse's Blog</title>
+  <title>多线程生产及消费模式 | Stan Tse's Blog</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/20/lucky-draw/">
+    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/21/多线程生产及消费模式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Stan Tse">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">lucky draw</h1>
+          <h1 class="post-title" itemprop="name headline">多线程生产及消费模式</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-20T17:30:19+08:00">
-                2019-03-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-21T15:18:45+08:00">
+                2019-03-21
               </time>
             
 
@@ -352,7 +352,12 @@
       
 
       
-        <h2 id="A-simple-lucky-draw-programe"><a href="#A-simple-lucky-draw-programe" class="headerlink" title="A simple lucky draw programe"></a>A simple lucky draw programe</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import random</span><br><span class="line">#总抽奖人数</span><br><span class="line">employee = 100</span><br><span class="line">#获奖奖项记录</span><br><span class="line">prizes_records = &#123;&quot;1st&quot;:[], &quot;2nd&quot;:[], &quot;3rd&quot;:[], &quot;other&quot;:[]&#125;</span><br><span class="line">#n为获奖人数，prize为奖项    </span><br><span class="line">def prize(n,prize):</span><br><span class="line">    global employee</span><br><span class="line">    rest_roll_time = n -len(prizes_records[prize])</span><br><span class="line">    prize_record_list = []</span><br><span class="line">    while rest_roll_time:</span><br><span class="line">        for _, value in prizes_records.items():</span><br><span class="line">            prize_record_list += value </span><br><span class="line">        random_employee = random.randint(0, employee-1) </span><br><span class="line">        if random_employee not in prize_record_list:</span><br><span class="line">            prizes_records[prize].append(random_employee)</span><br><span class="line">            rest_roll_time-=1</span><br><span class="line">            continue </span><br><span class="line">            </span><br><span class="line">    return prizes_records       </span><br><span class="line">    </span><br><span class="line">if __name__==&quot;__main__&quot;:</span><br><span class="line">    print (prize(1, &apos;1st&apos;))</span><br><span class="line">    print (prize(2, &apos;2nd&apos;))</span><br><span class="line">    print (prize(10, &apos;3rd&apos;))</span><br><span class="line">    print (prize(10, &apos;other&apos;))</span><br></pre></td></tr></table></figure>
+        <h2 id="为什么要使用生产者与消费者模式"><a href="#为什么要使用生产者与消费者模式" class="headerlink" title="为什么要使用生产者与消费者模式"></a>为什么要使用生产者与消费者模式</h2><ol>
+<li>解耦</li>
+<li>并发</li>
+<li>支持忙闲不均</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from queue import Queue</span><br><span class="line">import random,threading,time</span><br><span class="line"></span><br><span class="line">#生产者类</span><br><span class="line">class Producer(threading.Thread):</span><br><span class="line">    def __init__(self, name,threadnum, queue):</span><br><span class="line">        super(Producer, self).__init__(name = name)</span><br><span class="line">        self.data=queue</span><br><span class="line">        self.threadnum = threadnum</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        for i in range(5):</span><br><span class="line">            print(&quot;%s is producing %d to the queue!&quot; % (self.getName(), i+5*self.threadnum))</span><br><span class="line">            self.data.put(i+5*self.threadnum)</span><br><span class="line">            time.sleep(random.randrange(10)/5)</span><br><span class="line">        print(&quot;%s finished!&quot; % self.getName())</span><br><span class="line"></span><br><span class="line">#消费者类</span><br><span class="line">class Consumer(threading.Thread):</span><br><span class="line">    def __init__(self,name, threadnum, queue):</span><br><span class="line">        super(Consumer, self).__init__(name = name)</span><br><span class="line">        self.data=queue</span><br><span class="line">        self.threadnum = threadnum</span><br><span class="line">    def run(self):</span><br><span class="line">        for i in range(5):</span><br><span class="line">            val = self.data.get()</span><br><span class="line">            print(&quot;%s is consuming. %d in the queue is consumed!&quot; % (self.getName(),val))</span><br><span class="line">            time.sleep(random.randrange(10))</span><br><span class="line">        print(&quot;%s finished!&quot; % self.getName())</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    queue = Queue()#队列</span><br><span class="line">    threads = []</span><br><span class="line">    threads = []</span><br><span class="line">    threadnum = 2</span><br><span class="line">    for i in range(threadnum):</span><br><span class="line">        threads.append(Producer(&apos;Producer&apos;,i, queue))   </span><br><span class="line">        threads.append(Consumer(&apos;Consumer&apos;,i, queue))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start() </span><br><span class="line"></span><br><span class="line">    for t in threads:</span><br><span class="line">        t.join()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    print (&apos;All threads finished!&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -369,7 +374,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/programe/" rel="tag"># programe</a>
+            <a href="/tags/threading/" rel="tag"># threading</a>
+          
+            <a href="/tags/Queue/" rel="tag"># Queue</a>
           
         </div>
       
@@ -382,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/14/python手写sqrt方法/" rel="next" title="python手写sqrt方法">
-                <i class="fa fa-chevron-left"></i> python手写sqrt方法
+              <a href="/2019/03/20/lucky-draw/" rel="next" title="lucky draw">
+                <i class="fa fa-chevron-left"></i> lucky draw
               </a>
             
           </div>
@@ -391,10 +398,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/21/多线程生产及消费模式/" rel="prev" title="多线程生产及消费模式">
-                多线程生产及消费模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -526,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-simple-lucky-draw-programe"><span class="nav-number">1.</span> <span class="nav-text">A simple lucky draw programe</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用生产者与消费者模式"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用生产者与消费者模式</span></a></li></ol></div>
             
 
           </div>
