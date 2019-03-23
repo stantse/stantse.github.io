@@ -262,6 +262,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/23/python基于websocket-client简单socket-io客户端/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Stan Tse">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stan Tse's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/23/python基于websocket-client简单socket-io客户端/" itemprop="url">python基于websocket-client简单socket.io客户端</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-23T16:50:54+08:00">
+                2019-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="python-websocket-client模块创建socket-io连接"><a href="#python-websocket-client模块创建socket-io连接" class="headerlink" title="python websocket-client模块创建socket.io连接"></a>python websocket-client模块创建socket.io连接</h2><ol>
+<li>send ‘2’保持心跳</li>
+<li>send ‘42[“message”,{}]’开头为request body</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import time</span><br><span class="line">from threading import Timer, Event, Thread</span><br><span class="line"></span><br><span class="line">import websocket</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class HeartbeatThread(Thread):</span><br><span class="line">    &quot;&quot;&quot;心跳&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    def __init__(self, event, ws):</span><br><span class="line">        super(HeartbeatThread, self).__init__()</span><br><span class="line">        self.event = event</span><br><span class="line">        self.ws = ws</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        while 1:</span><br><span class="line">            # 发送ping包</span><br><span class="line">            self.ws.send(&apos;2&apos;)</span><br><span class="line">            self.event.wait(timeout=2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def on_message(ws, message):</span><br><span class="line">    &quot;&quot;&quot;接收信息&quot;&quot;&quot;</span><br><span class="line">    print(message)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def on_error(ws, error):</span><br><span class="line">    print(error)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def on_close(ws):</span><br><span class="line">    print(&quot;### closed ###&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def on_open(ws):</span><br><span class="line">    &quot;&quot;&quot;请求连接&quot;&quot;&quot;</span><br><span class="line">    ws.send(&quot;2probe&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def on_emit(ws):</span><br><span class="line">    # 创建心跳线程</span><br><span class="line">    event = Event()</span><br><span class="line">    heartbeat = HeartbeatThread(event, ws)</span><br><span class="line">    heartbeat.start()</span><br><span class="line"></span><br><span class="line">    while 1:</span><br><span class="line">        # 发送信息</span><br><span class="line">        # 4: engine.io message</span><br><span class="line">        # 2: socket.io event</span><br><span class="line">        content = &apos;42[&quot;message&quot;, &#123;&quot;_url&quot;:&quot;/chain/get_account&quot;,&quot;_method&quot;:&quot;POST&quot;,&quot;_headers&quot;:&#123;&quot;content-type&quot;:&quot;application/json&quot;&#125;,&quot;account&quot;:&quot;eosio.stake&quot;,&quot;lang&quot;:&quot;zh-CN&quot;&#125;]&apos;</span><br><span class="line">        ws.send(content)</span><br><span class="line">        time.sleep(6)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    websocket.enableTrace(True)</span><br><span class="line">    # url 格式</span><br><span class="line">    ws = websocket.WebSocketApp(</span><br><span class="line">        &quot;wss://XXXXX.io/socket.io/?EIO=3&amp;transport=websocket&quot;,</span><br><span class="line">        on_message=on_message,</span><br><span class="line">        on_error=on_error,</span><br><span class="line">        on_close=on_close</span><br><span class="line">    )</span><br><span class="line">    ws.on_open = on_open</span><br><span class="line"></span><br><span class="line">    t = Timer(3, on_emit, args=(ws,))</span><br><span class="line">    t.start()</span><br><span class="line"></span><br><span class="line">    ws.run_forever()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/03/21/多线程生产及消费模式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1564,160 +1709,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/01/24/locust对websocket进行压力测试/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Stan Tse">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Stan Tse's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/24/locust对websocket进行压力测试/" itemprop="url">locust对websocket进行压力测试</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-24T19:46:24+08:00">
-                2019-01-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="WSTaskset-手撸一个WS测试任务类WSTaskset"><a href="#WSTaskset-手撸一个WS测试任务类WSTaskset" class="headerlink" title="WSTaskset:手撸一个WS测试任务类WSTaskset"></a>WSTaskset:手撸一个WS测试任务类WSTaskset</h2><ol>
-<li><strong>on_start:</strong> 先建立websocket链接,再写个_recieve私有方法作数据接收,gevent.spwan(_recieve)方法异步接收服务端recv消息。</li>
-<li><strong>sent:</strong> sent向websocket服务端发送信息。</li>
-<li><strong>on_quit:</strong> 关闭websocket链接</li>
-</ol>
-<h2 id="WSLocust：继承loucst类"><a href="#WSLocust：继承loucst类" class="headerlink" title="WSLocust：继承loucst类"></a>WSLocust：继承loucst类</h2><ol>
-<li><strong>task_set:</strong> WSTaskset赋值给task_set让locust去执行。</li>
-<li><strong>queue:</strong> 这边对发送请求的用户做了参数化，并put到队列里,user_token_queue = queue.Queue(), user_token_queue.put_nowait(token)。</li>
-</ol>
-<h2 id="完整脚本"><a href="#完整脚本" class="headerlink" title="完整脚本:"></a>完整脚本:</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"> # -*- coding:utf-8 -*-</span><br><span class="line">from __future__ import absolute_import</span><br><span class="line">from __future__ import unicode_literals</span><br><span class="line">from __future__ import print_function</span><br><span class="line"></span><br><span class="line">import json</span><br><span class="line">import uuid</span><br><span class="line">import time</span><br><span class="line">import gevent</span><br><span class="line">import queue</span><br><span class="line">import websocket</span><br><span class="line">import six</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">from locust import HttpLocust, TaskSet, task, Locust</span><br><span class="line">from locust.events import request_success</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class WSTaskSet(TaskSet):</span><br><span class="line"></span><br><span class="line">    def on_start(self):</span><br><span class="line">        ws = websocket.WebSocket()</span><br><span class="line">        ws.connect(&apos;wss://xxx.com/ws&apos;)</span><br><span class="line">        self.ws =ws</span><br><span class="line"></span><br><span class="line">        def _receive():</span><br><span class="line">            while True:</span><br><span class="line">                res = ws.recv()</span><br><span class="line">                data = json.loads(res)</span><br><span class="line">                print (data)</span><br><span class="line">                end_at = time.time()</span><br><span class="line">                #response_time = 1000</span><br><span class="line">                request_success.fire(</span><br><span class="line">                    request_type=&apos;WebSocket Recv&apos;,</span><br><span class="line">                    name=&apos;test/ws/recv&apos;,</span><br><span class="line">                    response_time=int((time.time() - end_at) * 1000),</span><br><span class="line">                    response_length=len(res),</span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line">        gevent.spawn(_receive)</span><br><span class="line"></span><br><span class="line">    def on_quit(self):</span><br><span class="line">        self.ws.close()</span><br><span class="line"></span><br><span class="line">    @task</span><br><span class="line">    def sent(self):</span><br><span class="line"></span><br><span class="line">        token = self.locust.user_token_queue.get()</span><br><span class="line"></span><br><span class="line">        start_at = time.time()</span><br><span class="line">        body = json.dumps(send_msg)</span><br><span class="line">        print (&quot;send......&quot;, token)</span><br><span class="line">        self.ws.send(body)</span><br><span class="line">        request_success.fire(</span><br><span class="line">        	request_type=&apos;WebSocket Sent&apos;,name=&apos;test/ws/sent&apos;,</span><br><span class="line">        	response_time=int((time.time() - start_at) * 1000), </span><br><span class="line">        	response_length=len(body)</span><br><span class="line">        )</span><br><span class="line">        self.locust.user_token_queue.put_nowait(token)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class WSLocust(Locust):</span><br><span class="line">    task_set = WSTaskSet</span><br><span class="line">    min_wait = 1000</span><br><span class="line">    max_wait = 1000</span><br><span class="line">    #host = &quot;http://127.0.0.1:5000&quot;</span><br><span class="line">    token_list = np.arange(10001, 10101)</span><br><span class="line">    #token_list = [&apos;10001&apos;, &apos;10002&apos;]</span><br><span class="line">    user_token_queue = queue.Queue()</span><br><span class="line">    for index in range(len(token_list)):</span><br><span class="line">        token = str(token_list[index])</span><br><span class="line">        user_token_queue.put_nowait(token)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1761,7 +1759,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1783,7 +1781,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
