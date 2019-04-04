@@ -74,6 +74,8 @@
 
 
 
+  <link rel="alternate" href="/atom.xml" title="Stan Tse's Blog" type="application/atom+xml">
+
 
 
 
@@ -248,6 +250,153 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://stantse.github.io/2019/01/29/求json最大深度/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Stan Tse">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stan Tse's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/29/求json最大深度/" itemprop="url">求json最大深度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-29T20:14:24+08:00">
+                2019-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="json原始数据"><a href="#json原始数据" class="headerlink" title="json原始数据"></a>json原始数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">json_data = &#123;</span><br><span class="line">    &quot;id&quot;: &apos;90&apos;,</span><br><span class="line">    &quot;text&quot;: &apos;China&apos;,</span><br><span class="line">    &quot;children&quot;: [&#123;</span><br><span class="line">        &quot;id&quot;: &apos;80&apos;,</span><br><span class="line">        &quot;text&quot;: &apos;North China&apos;,</span><br><span class="line">        &quot;children&quot;: [&#123;</span><br><span class="line">            &quot;id&quot;: &apos;1156110000&apos;,</span><br><span class="line">            &quot;text&quot;: &apos;Beijing&apos;,</span><br><span class="line">             &quot;children&quot;: [</span><br><span class="line">                 &#123; &quot;id&quot;: &apos;742&apos;, &quot;text&quot;: &apos;Changping&apos;,</span><br><span class="line">                 &quot;children&quot; :[</span><br><span class="line">                 	&#123;&quot;id&quot;:&quot;6666666&quot;,&quot;text&quot;:&quot;llllll&quot;&#125;,</span><br><span class="line">                 	&#123;&quot;id&quot;:&quot;7777777&quot;,&quot;text&quot;:&quot;xxxxxx&quot;&#125;,</span><br><span class="line">                 	]</span><br><span class="line">                 &#125;,</span><br><span class="line"></span><br><span class="line">                 &#123; &quot;id&quot;: &apos;743&apos;, &quot;text&quot;: &apos;chaoyang&apos; &#125;,</span><br><span class="line">                 &#123; &quot;id&quot;: &apos;759&apos;, &quot;text&quot;: &apos;yanqing&apos; &#125;</span><br><span class="line">             ]</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;id&quot;: &apos;1156120000&apos;,</span><br><span class="line">            &quot;text&quot;: &apos;Tianjin&apos;,</span><br><span class="line">             &quot;children&quot;: [</span><br><span class="line">                 &#123; &quot;id&quot;: &apos;760&apos;, &quot;text&quot;: &apos;Baodi&apos;,</span><br><span class="line">                 &quot;children&quot;: [</span><br><span class="line">                        &#123;&quot;id&quot;:&quot;8888&quot;,&quot;text&quot;:&quot;jjjjjjj&quot;&#125;,</span><br><span class="line">                        &#123;&quot;id&quot;:&quot;9999&quot;,&quot;text&quot;:&quot;kkkkkkk&quot;,</span><br><span class="line">                        &quot;children&quot;: [</span><br><span class="line">                            &#123;&quot;id&quot;:&quot;111111111111&quot;,&quot;text&quot;:&quot;ppp&quot;&#125;,</span><br><span class="line">                             ]</span><br><span class="line">                        &#125;,</span><br><span class="line"></span><br><span class="line">                        ]</span><br><span class="line">                 &#125;,</span><br><span class="line">                 &#123; &quot;id&quot;: &apos;761&apos;, &quot;text&quot;: &apos;Beichen&apos; &#125;,</span><br><span class="line">                 &#123; &quot;id&quot;: &apos;900&apos;, &quot;text&quot;: &apos;New Binghai&apos; &#125;</span><br><span class="line">             ]</span><br><span class="line">        &#125;]</span><br><span class="line">        &#125;, </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">        &quot;id&quot;: &apos;81&apos;,</span><br><span class="line">        &quot;text&quot;: &apos;North East China&apos;,</span><br><span class="line">        &quot;children&quot;: [&#123;</span><br><span class="line">            &quot;id&quot;: &apos;1156230000&apos;,</span><br><span class="line">            &quot;text&quot;: &apos;Heilongjiang&apos;,</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156230600&apos;, &quot;text&quot;: &apos;Daqing&apos; &#125;,</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156230700&apos;, &quot;text&quot;: &apos;Yichun&apos; &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;id&quot;: &apos;1156220000&apos;,</span><br><span class="line">            &quot;text&quot;: &apos;Jilin&apos;,</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156220800&apos;, &quot;text&quot;: &apos;Baicheng&apos; &#125;,</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156220100&apos;, &quot;text&quot;: &apos;CHangchun&apos; ,</span><br><span class="line">                &quot;children&quot;: [&#123;&quot;id&quot;:&quot;123&quot;,&quot;text&quot;:&quot;aaa123&quot;&#125;,</span><br><span class="line">                             &#123;&quot;id&quot;:&quot;234&quot;, &quot;text&quot;:&quot;aaa234&quot;, &quot;children&quot;:[&#123;&quot;id&quot;:&quot;345&quot;, &quot;text&quot;:&quot;aaa345&quot;,&quot;children&quot;:[&#123;&quot;id&quot;:&quot;678&quot;, &quot;text&quot;:&quot;aaa678&quot;&#125;,&#123;&quot;id&quot;:&quot;789&quot;, &quot;text&quot;:&quot;aaa789&quot;&#125;]&#125;,&#123;&quot;id&quot;:&quot;456&quot;,&quot;text&quot;:&quot;aaa456&quot;&#125;]&#125;]&#125;</span><br><span class="line">                ]</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;id&quot;: &apos;1156210000&apos;,</span><br><span class="line">            &quot;text&quot;: &apos;Lianning&apos;,</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156210300&apos;, &quot;text&quot;: &apos;Anshang&apos; ,</span><br><span class="line">                &quot;children&quot;:[&#123;&quot;id&quot;:&quot;133888&quot;, &quot;text&quot;:&quot;aa13388&quot;&#125;,&#123;&quot;id&quot;:&quot;34343&quot;,&quot;text&quot;:&quot;738584&quot;&#125;]&#125;,</span><br><span class="line">                &#123; &quot;id&quot;: &apos;1156210800&apos;, &quot;text&quot;: &apos;Yinkou&apos; &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;]</span><br><span class="line">    		&#125;]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="求json-data最大深度"><a href="#求json-data最大深度" class="headerlink" title="求json_data最大深度"></a>求json_data最大深度</h2><ul>
+<li>解题思路是用递归的方法遍历一遍，然后计算其中的children个数</li>
+<li>返回的res_depth列表对应统计children个数会有重复，结构要去重处理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def parser_depth(json_data, depth =0):</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    res_depth = []</span><br><span class="line"></span><br><span class="line">    for node in json_data[&apos;children&apos;]:</span><br><span class="line">        if node.has_key(&apos;children&apos;) == True:</span><br><span class="line">            res_depth.extend(parser_depth(node, depth + 1))</span><br><span class="line">        </span><br><span class="line">        else:</span><br><span class="line">            res_depth.append(depth)</span><br><span class="line">            </span><br><span class="line">    return  res_depth  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">node_depth_list = parser_depth(json_data)</span><br><span class="line"></span><br><span class="line">print list(set(node_depth_list))[-1]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -602,7 +751,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -632,6 +781,13 @@
 
           </nav>
 
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           
@@ -685,6 +841,26 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
 
 
 
